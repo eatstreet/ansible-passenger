@@ -2,3 +2,13 @@
 passenger_webserver: "standalone"
 passenger_pkgs_state: "installed"
 passenger_pkgs_fix_shebang: no
+
+passenger_type: opensource
+
+passenger_standalone:
+  opensource: passenger
+  enterprise: passenger-enterprise
+
+passenger_apache_module:
+  opensource: libapache2-mod-passenger
+  enterprise: libapache2-mod-passenger-enterprise

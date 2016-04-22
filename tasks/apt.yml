@@ -10,4 +10,21 @@
 
 - name: apt - add passenger repo
   apt_repository: repo='deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ ansible_lsb.codename }} main' state=present update_cache=yes
+  when: passenger_type == 'opensource'
 
+- name: apt - validate if download token and license are set
+  assert:
+    that: passenger_enterprise_token and passenger_license
+  when: passenger_type == 'enterprise'
+
+- name: install license
+  copy:
+    dest: /etc/passenger-enterprise-license
+    owner: root
+    group: root
+    mode: 0640
+    content: "{{ passenger_license }}"
+
+- name: apt - add passenger enterprise repo
+  apt_repository: repo='deb https://download:{{ passenger_enterprise_token }}@www.phusionpassenger.com/enterprise_apt {{ ansible_lsb.codename }} main' state=present update_cache=yes
+  when: passenger_type == 'enterprise'
