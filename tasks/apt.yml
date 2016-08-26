@@ -24,6 +24,7 @@
     group: root
     mode: 0640
     content: "{{ passenger_license }}"
+  when: passenger_type == 'enterprise'
 
 - name: apt - add passenger enterprise repo
   apt_repository: repo='deb https://download:{{ passenger_enterprise_token }}@www.phusionpassenger.com/enterprise_apt {{ ansible_lsb.codename }} main' state=present update_cache=yes
